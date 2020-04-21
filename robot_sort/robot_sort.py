@@ -96,9 +96,36 @@ class SortingRobot:
         """
         Sort the robot's list.
         """
-        # Fill this out
-        pass
 
+        # Need to have some sort of "test" so we can continue to run through our sorting algorithim
+        # Want to grab the first item in the list thus to start the sorting with something in our hand
+        self.swap_item()
+        self.set_light_on()
+
+        while self.light_is_on():
+
+            # If the robot can move to the right, move right and check if they robot can switch our items
+            while self.can_move_right():
+                self.move_right()
+
+                if self.compare_item() == 1:
+                    self.swap_item()
+
+            # if we are able to compare an item, move towards the left
+            while self.compare_item() is not None:
+                self.move_left()
+
+            # Continue to swap out items
+            self.swap_item()
+
+            # runs the actual test for the robot and handles sorting logic
+            # if the robot can not move at all, turn the light of since the sorting has been completed
+            if self.can_move_right():
+                if self.compare_item() is None:
+                    self.move_right()
+                    self.swap_item()
+            else:
+                self.set_light_off()
 
 if __name__ == "__main__":
     # Test our your implementation from the command line
